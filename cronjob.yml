@@ -1,0 +1,32 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: mydags:latest
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - python3 ./app/run.py tutorial print_date
+            env:
+              - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+                value: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
+            volumeMounts:
+              - name: graph-data
+                mountPath: /app/graph/
+          restartPolicy: OnFailure
+          volumes:
+            - name: graph-data
+              configMap:
+                name: kubedag-graph # todo - needs uniqueness
+                items:
+                  - key: graph.json
+                    path: graph.json

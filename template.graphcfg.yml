@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubedag-graph
+  namespace: default
+data:
+  graph.json: |
+    $data

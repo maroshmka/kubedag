@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubedag-graph
+  namespace: default
+data:
+  graph.json: |
+    {"graph.json": [{"dag_id": "tutorial", "downstream": [{"task_id": "print_date", "downstream": ["t4", "sleep"]}, {"task_id": "sleep", "downstream": ["templated"]}, {"task_id": "templated", "downstream": []}, {"task_id": "t4", "downstream": []}], "upstream": {"print_date": [], "sleep": ["print_date"], "templated": ["sleep"], "t4": ["print_date"]}}]}

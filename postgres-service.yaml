@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airflow-db
+  labels:
+    app: airflow-db
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+  selector:
+    run: airflow-db

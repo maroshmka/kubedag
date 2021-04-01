@@ -8,6 +8,7 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: sa-runner
           containers:
           - name: hello
             image: mydags:latest
@@ -15,7 +16,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - python3 ./app/run.py tutorial print_date
+            - python3 ./app/run.py tutorial DUMMY_FIRST_TASK
             env:
               - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
                 value: postgresql+psycopg2://airflow:airflow@airflow-db/airflow

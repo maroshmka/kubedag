@@ -5,4 +5,4 @@ metadata:
   namespace: default
 data:
   graph.json: |
-    {"graph.json": [{"dag_id": "tutorial", "downstream": [{"task_id": "print_date", "downstream": ["t4", "sleep"]}, {"task_id": "sleep", "downstream": ["templated"]}, {"task_id": "templated", "downstream": []}, {"task_id": "t4", "downstream": []}], "upstream": {"print_date": [], "sleep": ["print_date"], "templated": ["sleep"], "t4": ["print_date"]}}]}
+    {"graph": {"tutorial": {"tasks": {"print_date": {"downstream": ["sleep", "t4"], "upstream": []}, "sleep": {"downstream": ["templated"], "upstream": ["print_date"]}, "templated": {"downstream": [], "upstream": ["sleep"]}, "t4": {"downstream": [], "upstream": ["print_date"]}}, "roots": ["print_date"]}}}

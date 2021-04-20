@@ -58,4 +58,4 @@ t4 = BashOperator(
 )
 
 t1 >> t2 >> t3
-t1 >> t4
+t1 >> t4 >> t3

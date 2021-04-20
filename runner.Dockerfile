@@ -1,5 +1,7 @@
 FROM apache/airflow:2.0.0
 
-RUN mkdir ./app
+RUN mkdir ./kubedag
+WORKDIR ./kubedag
 
-COPY run.py ./app/run.py
+COPY ./kubedag/* ./
+COPY ./templates/* ./templates/

@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: $job_name
+spec:
+  template:
+    spec:
+      serviceAccountName: sa-runner
+
+      # todo - this is actually the same as cronjob job
+      # todo - rewrite from yaml ?
+      containers:
+        - name: $job_name
+          image: mydags:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - python3 -m run $dag_id $task_id
+          env:
+            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+              value: postgresql+psycopg2://airflow:airflow@airflow-db/airflow
+          volumeMounts:
+            - name: graph-data
+              mountPath: /app/graph/
+
+      restartPolicy: OnFailure
+      volumes:
+        - name: graph-data
+          configMap:
+            name: kubedag-graph # todo - needs uniqueness
+            items:
+              - key: graph.json
+                path: graph.json
+
+  backoffLimit: 4
+

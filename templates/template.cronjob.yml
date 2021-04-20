@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: hello
+  name: $cronjob_name
 spec:
   schedule: "*/10 * * * *"
   jobTemplate:
@@ -16,7 +16,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - python3 ./app/run.py $dag_id $task_id
+            - python3 -m run $dag_id $task_id
             env:
               - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
                 value: postgresql+psycopg2://airflow:airflow@airflow-db/airflow

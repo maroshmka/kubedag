@@ -67,18 +67,26 @@ def get_graph_from_cfgmap():
     return graphobj["graph"]
 
 
-async def job_completed(dag_id, task_id) -> bool:
+def job_completed(dag_id, task_id) -> bool:
     watch = kubernetes.watch.Watch()
     job_v1 = kubernetes.client.BatchV1Api()
     job_name = jobname(dag_id, task_id)
 
+    # todo - we first need to check if there is a job with Completed status
+    # todo - because it might have finished soooner than we started listening
+    # todo - then watch stream
     for event in watch.stream(
         func=job_v1.list_namespaced_job,
         namespace="default",
         field_selector=f"metadata.name={job_name}",
         timeout_seconds=60 * 5,
     ):  # 5min timeout
-        obj: V1JobStatus = event["object"]
+        obj = event["object"]
+
+        if not isinstance(obj, V1JobStatus):
+            logging.info("No event about status change for jobs.")
+            continue
+
         if obj.active:
             logging.info(f"Still waiting for job {job_name}")
 

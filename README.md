@@ -30,18 +30,18 @@ very wip, ugly code, PoC-ing
 # todo
 
 - meet dependencies (A->C, B->C)
-    - almost done? check complete + trigger
-- sensors?
-    - should work as normal tasks.. ?
+    - job completed - small enhacements needed
 - UI (logs?)
   - from k8s stdout logs (write structlog)
-- make CLI
-- separate example from the lib, now its merged
+  - or propagade somewhere
+- make CLI with click
+- separate example from the lib, now its merged into one repo
 - cleanup
 
 # problems
 
 - dind? needed?
 - execution date ? how to setup?
-- k8s resoureces already exists when redeployed ? cleanup things
-- airflow db? 
+- testing / sandbox
+	- k8s resoureces already exists when redeployed ? cleanup things
+- airflow db? do we need it ?

@@ -93,5 +93,3 @@ else:
                     "job_name": jobname(dag_id, down_id),
                 },
             )
-
-    logging.info(dag["roots"])
